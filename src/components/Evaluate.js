@@ -6,10 +6,15 @@ import LineChartSkeleton from "./SkeletonComponents/LineChartSkeleton";
 import PieChartSkeleton from "./SkeletonComponents/PieChartSkeleton";
 const EvaluatePage = () => {
 
+    // for loading and calling the model
     const [loading, setLoading] = useState(false);
     const [start, setStart] = useState(false);
 
+    //input data 
+    const [category, setCategory] = useState("Posts");
     const [handle, setHandle] = useState("");
+
+    // output data
     const [finalData, setFinalData] = useState([
         { name: 'Stressed', value: 72 },
         { name: 'Not Stressed', value: 28 }
@@ -30,19 +35,23 @@ const EvaluatePage = () => {
     ])
 
 
-
+    // handling the data changes functions
     const handleInputChange = (e) => {
         setHandle(e.target.value);
     }
 
     const handleStart = (e) => {
-        if(start === true)
+        if (start === true)
             setLoading(true);
         setStart(true);
 
         setSingleData(singleData);
         setFinalData(finalData);
 
+    }
+
+    const handleCategory = (e) => {
+        setCategory(e.target.value);
     }
 
 
@@ -52,6 +61,24 @@ const EvaluatePage = () => {
                 <h3 className="evaluate-page-header-text">Enter your handle to evaluate </h3>
             </div>
             <div className="evaluate-input-area">
+
+                <label className="evaluate-category">
+                    <select value={category} onChange={(event)=> handleCategory(event)} >
+                        <option value="Posts">Posts Only</option>
+                        <option value="Comments">Comments Only</option>
+                        <option value="Posts + Comments">Posts + Comments</option>
+                    </select>
+                </label>
+                {/* <section id="header-container">
+                    <select>
+                        <option disabled>What's your favorite movie ?</option>
+                        <option value="choix-2">Inception</option>
+                        <option value="choix-3">Godzilla</option>
+                        <option value="choix-4">Back to the future</option>
+                        <option value="choix-5">Shutter Island</option>
+                    </select>
+                </section> */}
+
                 <input
                     placeholder="Enter your reddit handle"
                     value={handle}
@@ -64,18 +91,18 @@ const EvaluatePage = () => {
             </div>
             {
                 start === true ? loading === false
-                ?
-                 <div className="evaluate-result">
-                    <PieChartSkeleton/>
-                    <LineChartSkeleton />
-                </div> 
-                :
-                 <div className="evaluate-result">
-                    <div className="evaluate-pie-chart"><StressPieChart data={finalData} /></div>
-                    <div className="evalaute-line-chart"><StressLineChart data={singleData} /></div>
-                </div>
-                :
-                <div>Process not started</div>
+                    ?
+                    <div className="evaluate-result">
+                        <PieChartSkeleton />
+                        <LineChartSkeleton />
+                    </div>
+                    :
+                    <div className="evaluate-result">
+                        <div className="evaluate-pie-chart"><StressPieChart data={finalData} /></div>
+                        <div className="evalaute-line-chart"><StressLineChart data={singleData} /></div>
+                    </div>
+                    :
+                    <div>Process not started</div>
             }
 
         </div>

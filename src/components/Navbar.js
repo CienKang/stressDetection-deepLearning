@@ -39,7 +39,7 @@ const Navbar = () => {
             </div>
 
             <div className="navbar-avatar">
-            <text>User Name</text>
+            <span>User Name</span>
             </div>
                 <Link to="/evaluate" className='link-tag-links'>
             <button className='evaluate'>
