@@ -34,13 +34,30 @@ const EvaluatePage = () => {
         { postNo: 9, stress: 0.10824141 }
     ])
 
+    const getStressPredictionJson = async () => {
+        const resp=await fetch("/predict", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'username': handle,
+            })
+        });
+        const stress_level=await resp.json();
+        console.log(stress_level['stress_level']);
+    }
 
     // handling the data changes functions
-    const handleInputChange = (e) => {
+    const handleInputChange = async (e) => {
         setHandle(e.target.value);
     }
 
     const handleStart = (e) => {
+        getStressPredictionJson();
+        if (start === true)
+            setLoading(true);
         setStart(true);
         callModel(category, handle);
     }
@@ -91,11 +108,16 @@ const EvaluatePage = () => {
         setSingleData(singleData);
         setFinalData(finalData);
     }
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
     const handleCategory = (e) => {
+        console.log("sending request")
         setCategory(e.target.value);
     }
-
-
+    
     return (
         <div className="evaluate-page-container">
             <div className="evaluate-page-header">
