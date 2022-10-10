@@ -390,3 +390,20 @@ select option:hover {
   width: 270px;
   color: #EC6F66;
 } */
+
+
+.single-post-evaluate-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.single-post-evaluate-div p{
+  text-align: center;
+  margin: auto;
+  height: 30vh;
+}
+
+.bold-text{
+  font-weight: bold;
+}
