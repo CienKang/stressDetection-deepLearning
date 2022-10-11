@@ -108,11 +108,7 @@ const EvaluatePage = () => {
         setSingleData(singleData);
         setFinalData(finalData);
     }
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
     const handleCategory = (e) => {
         console.log("sending request")
         setCategory(e.target.value);
