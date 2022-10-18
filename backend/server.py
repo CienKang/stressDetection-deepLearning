@@ -21,13 +21,20 @@ def predictStress():
     posts=reddit_fetcher.fetchPost(username)
     comments=reddit_fetcher.fetchComments(username)
     stress_score=0
-    for post in posts:
-        stress_score+=stress_model.predictStress(post)
-    for comment in comments:
-        stress_score+=stress_model.predictStress(comment)
-    stress_score/=len(posts)+len(comments)
+    time_stress=[]
+    for i in range(len(posts)):
+        stress=stress_model.predictStress(posts[i]["text"])
+        time_stress.append({"time": posts[i]["time"], "stress": stress})
+        stress_score+=stress
+    for i in range(len(comments)):
+        stress=stress_model.predictStress(comments[i]["text"])
+        time_stress.append({"time": posts[i]["time"], "stress": stress})
+        stress_score+=stress
+    print("type stress: ", type(stress))
+    if (len(posts)+len(comments))!=0:
+        stress_score/=len(posts)+len(comments)
     print(stress_score)
-    return jsonify({"stress_level": stress_score})
+    return jsonify({"stress_level": stress_score, "time_stress": time_stress})
 
 if __name__ == '__main__':
     app.run(host= '127.0.0.1',debug=True)

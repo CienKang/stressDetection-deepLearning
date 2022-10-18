@@ -46,7 +46,8 @@ const EvaluatePage = () => {
             })
         });
         const stress_level=await resp.json();
-        console.log(stress_level['stress_level']);
+        console.log(stress_level);
+        return stress_level['stress_level'];
     }
 
     // handling the data changes functions
@@ -55,17 +56,29 @@ const EvaluatePage = () => {
     }
 
     const handleStart = (e) => {
-        getStressPredictionJson();
         if (start === true)
             setLoading(true);
         setStart(true);
         callModel(category, handle);
     }
 
-    const callModel = (category, handle) => {
+    function roundToTwo(num) {
+        return +(Math.round(num + "e+2")  + "e-2");
+    }
 
+    const callModel = async (category, handle) => {
+        var stress_level=await getStressPredictionJson();
+        var non_stress=roundToTwo((1-stress_level)*100);
+        stress_level=roundToTwo(stress_level*100);
+        //console.log(stress_level.toFixed(2));  
+        //console.log(non_stress.toFixed(2));
+        setLoading(false);
+        setFinalData([
+            { name: 'Stressed', value: stress_level },
+            { name: 'Not Stressed', value: non_stress }
+        ]);
         // function to call backend
-        setTimeout(() => {
+        /*setTimeout(() => {
             // ending the skeleton 
             setLoading(false);
             console.log(`We are checking ${category} for reddit user ${handle}`);
@@ -103,10 +116,10 @@ const EvaluatePage = () => {
                 have custody of my two tiny monsters! I’ve also lost over 70lbs in the
                 last year, working to get healthy and watch these two grow up. Haven’t
                 been this happy in forever.`]);
-        }, 3000);
+        }, 3000);*/
 
         setSingleData(singleData);
-        setFinalData(finalData);
+        //setFinalData(finalData);
     }
 
     const handleCategory = (e) => {

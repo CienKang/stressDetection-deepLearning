@@ -45,7 +45,7 @@ class StressModel():
         t=np.reshape(np.array([t]), (1,1))
         j=np.reshape(np.array([j]), (1,1))
         mbti=np.concatenate((i,n,t,j), axis=1)
-        return self.stress_detector.predict([post_text_pad, mbti])[0][0]
+        return self.stress_detector.predict([post_text_pad, mbti])[0][0].item()
 
 if __name__=="__main__":
     import consts

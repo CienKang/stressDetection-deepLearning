@@ -10,14 +10,14 @@ class RedditPostFetcher():
         posts=[]
         redditor=self.reddit.redditor(username)
         for submission in redditor.submissions.top(time_filter="all"):
-            posts.append(submission.selftext)
+            posts.append({"time": submission.created, "text": submission.selftext})
         return posts
 
     def fetchComments(self, username):
         comments=[]
         redditor=self.reddit.redditor(username)
         for comment in redditor.comments.new(limit=None):
-            comments.append(comment.body)
+            comments.append({"time": comment.created_utc, "text": comment.body})
         return comments
 
 if __name__=="__main__":
