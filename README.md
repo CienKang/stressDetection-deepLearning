@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+We are making a react application using custom backend
+
 ## Available Scripts
 
 In the project directory, you can run:
