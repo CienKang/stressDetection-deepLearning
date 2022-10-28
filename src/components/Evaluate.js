@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Evaluate from '../images/Evaluate.svg';
 import Slider from "./graphComponents/Slider";
-import StressLineChart from "./graphComponents/StressLineChart";
+//import StressLineChart from "./graphComponents/StressLineChart";
 import StressPieChart from "./graphComponents/StressPieChart";
 import LineChartSkeleton from "./SkeletonComponents/LineChartSkeleton";
 import PieChartSkeleton from "./SkeletonComponents/PieChartSkeleton";
+import StressLineChart from "./graphComponents/StressLineChart";
 const EvaluatePage = () => {
 
     // for loading and calling the model
@@ -23,16 +24,36 @@ const EvaluatePage = () => {
         { name: 'Not Stressed', value: 0.76 * 100 }
     ]);
     const [singleData, setSingleData] = useState([
-        { postNo: 1, stress: 0.07892925 },
-        { postNo: 2, stress: 0.06309325 },
-        { postNo: 3, stress: 0.06309325 },
-        { postNo: 4, stress: 0.01263258 },
-        { postNo: 5, stress: 0.86423004 },
-        { postNo: 6, stress: 0.07787955 },
-        { postNo: 7, stress: 0.9313904 },
-        { postNo: 8, stress: 0.02374187 },
-        { postNo: 9, stress: 0.10824141 }
-    ])
+        {
+            "stress": 0.059458814561367035,
+            "time": 1664775257
+        },
+        {
+            "stress": 0.21673327684402466,
+            "time": 1664774755
+        },
+        {
+            "stress": 0.059458814561367035,
+            "time": 1664774810
+        },
+        {
+            "stress": 0.059458814561367035,
+            "time": 1664774727
+        }
+    ]);
+
+    function timeConverter(UNIX_timestamp){
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        return time;
+    }
 
     const getStressPredictionJson = async () => {
         const resp=await fetch("/predict", {
@@ -47,7 +68,7 @@ const EvaluatePage = () => {
         });
         const stress_level=await resp.json();
         console.log(stress_level);
-        return stress_level['stress_level'];
+        return stress_level;
     }
 
     // handling the data changes functions
@@ -67,16 +88,22 @@ const EvaluatePage = () => {
     }
 
     const callModel = async (category, handle) => {
-        var stress_level=await getStressPredictionJson();
+        var resp_data=await getStressPredictionJson();
+        var stress_level=resp_data['stress_level']
         var non_stress=roundToTwo((1-stress_level)*100);
         stress_level=roundToTwo(stress_level*100);
         //console.log(stress_level.toFixed(2));  
         //console.log(non_stress.toFixed(2));
-        setLoading(false);
         setFinalData([
             { name: 'Stressed', value: stress_level },
             { name: 'Not Stressed', value: non_stress }
         ]);
+        resp_data.time_stress.sort(function (a, b) {
+            return a.time-b.time;
+        });
+        await setSingleData(resp_data.time_stress);
+        setLoading(false);
+        console.log(singleData);
         // function to call backend
         /*setTimeout(() => {
             // ending the skeleton 
@@ -117,8 +144,6 @@ const EvaluatePage = () => {
                 last year, working to get healthy and watch these two grow up. Haven’t
                 been this happy in forever.`]);
         }, 3000);*/
-
-        setSingleData(singleData);
         //setFinalData(finalData);
     }
 

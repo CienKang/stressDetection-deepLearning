@@ -105,8 +105,8 @@ class StressModel():
         return self.stress_detector.predict([post_text_pad, mbti])[0][0].item()
 
 if __name__=="__main__":
-    print(VoiceStressModel(voice_model_path="models/Data_noiseNshift.h5", label_encoder_path="models/lb.sav").predictStress("WhatsApp Ptt 2022-10-27 at 18.47.21.ogg"))
     import consts
+    print(VoiceStressModel(voice_model_path=consts.VOICE_MODEL_PATH, label_encoder_path=consts.LABEL_ECODER_PATH).predictStress("WhatsApp Ptt 2022-10-27 at 18.47.21.ogg"))
     stress_model=StressModel(stress_detector_path=consts.STRESS_MODEL_PATH, 
         tokenizer_path=consts.TOKENIZER_PATH, 
         personality_detector_path=consts.MBTI_PATH)
