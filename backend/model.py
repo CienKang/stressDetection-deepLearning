@@ -1,4 +1,3 @@
-from os import stat
 from tensorflow import keras
 import neattext.functions as nfx
 import pickle

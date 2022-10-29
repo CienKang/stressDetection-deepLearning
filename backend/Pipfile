@@ -61,6 +61,8 @@ websocket-client = "==1.4.1"
 werkzeug = "==2.2.2"
 wrapt = "==1.14.1"
 librosa = "*"
+pymongo = "*"
+python-decouple = "*"
 
 [dev-packages]
 
