@@ -3,8 +3,9 @@ import Logo from '../images/Logo.svg';
 import Evaluate from '../images/Evaluate.svg';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = (props) => {
 
+    const { userName, loginStatus, setUserName, setLoginStatus } = props;
     const [id1, setid1] = useState("selected");
     const [id2, setid2] = useState("");
     const [id3, setid3] = useState("");
@@ -27,6 +28,10 @@ const Navbar = () => {
         setid3("selected");
     }
 
+    const handleLogOut = () => {
+        setLoginStatus(false);
+        setUserName("Login Required");
+    }
 
     return (
         <div className="navbar-container">
@@ -39,14 +44,24 @@ const Navbar = () => {
             </div>
 
             <div className="navbar-avatar">
-            <span>User Name</span>
+                <span>{userName}</span>
             </div>
-                <Link to="/evaluate" className='link-tag-links'>
-            <button className='evaluate'>
-                <img className='icon' src={Evaluate} alt="Evaluate Logo" />
-                Evaluate
-            </button>
-                </Link>
+            {
+                loginStatus === false ?
+                    <Link to="/signin">
+                        <button className='btn btn-primary'>Log In</button>
+                    </Link> :
+
+                    <button className='btn btn-primary' onClick={() => handleLogOut()}>Log Out</button>
+
+            }
+
+            <Link to="/evaluate" className='link-tag-links'>
+                <button className='evaluate'>
+                    <img className='icon' src={Evaluate} alt="Evaluate Logo" />
+                    Evaluate
+                </button>
+            </Link>
         </div>
     );
 }

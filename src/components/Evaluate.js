@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Evaluate from '../images/Evaluate.svg';
 import Slider from "./graphComponents/Slider";
-//import StressLineChart from "./graphComponents/StressLineChart";
 import StressPieChart from "./graphComponents/StressPieChart";
 import LineChartSkeleton from "./SkeletonComponents/LineChartSkeleton";
 import PieChartSkeleton from "./SkeletonComponents/PieChartSkeleton";
 import StressLineChart from "./graphComponents/StressLineChart";
-const EvaluatePage = () => {
+import { useNavigate } from "react-router-dom";
+const EvaluatePage = (props) => {
 
+    const { loginStatus } = props;
     // for loading and calling the model
     const [loading, setLoading] = useState(true);
     const [start, setStart] = useState(false);
-
+    const navigate = useNavigate();
     //input data 
     const [category, setCategory] = useState("Posts");
     const [handle, setHandle] = useState("");
@@ -42,21 +43,21 @@ const EvaluatePage = () => {
         }
     ]);
 
-    function timeConverter(UNIX_timestamp){
+    function timeConverter(UNIX_timestamp) {
         var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
         var hour = a.getHours();
         var min = a.getMinutes();
         var sec = a.getSeconds();
-        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
         return time;
     }
 
     const getStressPredictionJson = async () => {
-        const resp=await fetch("/predict", {
+        const resp = await fetch("/predict", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -66,7 +67,7 @@ const EvaluatePage = () => {
                 'username': handle,
             })
         });
-        const stress_level=await resp.json();
+        const stress_level = await resp.json();
         console.log(stress_level);
         return stress_level;
     }
@@ -84,14 +85,14 @@ const EvaluatePage = () => {
     }
 
     function roundToTwo(num) {
-        return +(Math.round(num + "e+2")  + "e-2");
+        return +(Math.round(num + "e+2") + "e-2");
     }
 
     const callModel = async (category, handle) => {
-        var resp_data=await getStressPredictionJson();
-        var stress_level=resp_data['stress_level']
-        var non_stress=roundToTwo((1-stress_level)*100);
-        stress_level=roundToTwo(stress_level*100);
+        var resp_data = await getStressPredictionJson();
+        var stress_level = resp_data['stress_level']
+        var non_stress = roundToTwo((1 - stress_level) * 100);
+        stress_level = roundToTwo(stress_level * 100);
         //console.log(stress_level.toFixed(2));  
         //console.log(non_stress.toFixed(2));
         setFinalData([
@@ -99,59 +100,23 @@ const EvaluatePage = () => {
             { name: 'Not Stressed', value: non_stress }
         ]);
         resp_data.time_stress.sort(function (a, b) {
-            return a.time-b.time;
+            return a.time - b.time;
         });
         await setSingleData(resp_data.time_stress);
         setLoading(false);
         console.log(singleData);
-        // function to call backend
-        /*setTimeout(() => {
-            // ending the skeleton 
-            setLoading(false);
-            console.log(`We are checking ${category} for reddit user ${handle}`);
-
-            // setting the posts.
-            setPosts([
-                `god im so sorry man. losing pets is the absolute worst, it’s not 
-            a “pathetic excuse” at all. your dog was a part of your life, it’s 
-            understandable to feel that grief`,
-                `I just want to be fucking alone. people are the worst man. I hate
-            socializing. just leave me the fuck alone.`,
-                `I always feel like I have no redeeming qualities and feel 
-                inferior in every single way to everyone else. I look up to basically 
-                everyone with envy and respect, knowing they have earned whatever 
-                talent or trait they obtained. Nobody else has any reason to look at 
-                me like that, and thinking about that makes me want to die.`,
-                 `Three month after procrastination because of depression, i 
-                finally made the painting for this drawing`,
-                `After 10 brain surgeries, and much questioning why I am alive, I 
-                developed a sort of shattered state of mind after the horrible affects
-                of the medical condition I have, and this led to a moderately bad 
-                depressive cycle. But… Through much philosophy, books, nature, doggos,
-                and other stuff, I believe I have broken my depressive cycle. I 
-                haven’t had any majorly depressing thoughts in months now, and I 
-                believe I have done it!!`,
-                `Decided to go considering I (25m) broke down crying in front of 
-                my boss. It was an awesome experience and it felt so good to get so 
-                much off my chest!`,
-                `I hate that people don’t understand that i don’t want to kill 
-                myself, I just don’t want to be alive anymore`,
-                 `200 days drugs free today, on my way to my first day of 
-                college.`,
-                `A year ago my wife left me and my girls. I finally got the 
-                finalized divorce papers in the mail today! That means I officially 
-                have custody of my two tiny monsters! I’ve also lost over 70lbs in the
-                last year, working to get healthy and watch these two grow up. Haven’t
-                been this happy in forever.`]);
-        }, 3000);*/
-        //setFinalData(finalData);
     }
 
     const handleCategory = (e) => {
         console.log("sending request")
         setCategory(e.target.value);
     }
-    
+
+    useEffect(() => {
+        if (loginStatus == false)
+            navigate('/signin');
+    }, [loginStatus])
+
     return (
         <div className="evaluate-page-container">
             <div className="evaluate-page-header">
@@ -196,7 +161,7 @@ const EvaluatePage = () => {
                     // when opening page first time
                     <div>Process not started</div>
             }
-            
+
             {/* Posts is set 0 so it will not display rightnow.
                 But will make a option checkbox if user want to see this or not. */}
             <Slider posts={posts} singleData={singleData} />
