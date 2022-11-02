@@ -4,6 +4,7 @@ from fetcher import RedditPostFetcher
 import consts
 from db import Database
 from decouple import config
+import os
 
 app = Flask(__name__)
 database=Database(config("MONGO_CONN_STR"))
@@ -20,6 +21,10 @@ reddit_fetcher=RedditPostFetcher(
     reddit_client_id=config("REDDIT_CLIENT_ID"),
     reddit_user_agent=config("REDDIT_USER_AGENT")
     )
+
+def crossOriginAll(resp):
+    resp.headers.add('Access-Control-Allow-Origin', '*')
+    return resp
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predictStress():
@@ -41,16 +46,21 @@ def predictStress():
     if (len(posts)+len(comments))!=0:
         stress_score/=len(posts)+len(comments)
     print(stress_score)
-    return jsonify({"stress_level": stress_score, "time_stress": time_stress})
+    return crossOriginAll(jsonify({"stress_level": stress_score, "time_stress": time_stress}))
 
 @app.route('/predict_voice', methods=['GET', 'POST'])
 def predictVoiceStress():
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save("/tmp/"+uploaded_file.filename)
-        stress=voice_model.predictVoiceStress("/tmp/"+uploaded_file.filename)
-        return jsonify({"type": stress[0], "type_probab": stress[1]})
-    return jsonify({"error": "No file uploaded"})
+    files = request.files
+    file = files.get('file')
+
+    print(file)
+
+    with open(os.path.abspath(f'audios/audio'), 'wb+') as f:
+        f.write(file.read())
+
+    stress=voice_model.predictStress("audios/audio")
+    os.remove("audios/audio")
+    return crossOriginAll(jsonify({"type": stress[0], "type_probab": stress[1]}))
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -61,9 +71,9 @@ def login():
         if database.findUser({"_id": username, "password": password})!=None:
             session['username']=username
             return jsonify({"status": "success"})
-        return jsonify({"status": "failed"})
+        return crossOriginAll(jsonify({"status": "failed"}))
     else:
-        return jsonify({"status": "wrong method"})
+        return crossOriginAll(jsonify({"status": "wrong method"}))
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -73,10 +83,10 @@ def register():
         password=content['password']
         if database.findUser({"_id": username})==None:
             database.insertUser({"_id": username, "password": password})
-            return jsonify({"status": "success"})
-        return jsonify({"status": "failed"})
+            return crossOriginAll(jsonify({"status": "success"}))
+        return crossOriginAll(jsonify({"status": "failed"}))
     else:
-        return jsonify({"status": "wrong method"})
+        return crossOriginAll(jsonify({"status": "wrong method"}))
 
 @app.route('/logout', methods=['POST', 'GET'])
 def logout():

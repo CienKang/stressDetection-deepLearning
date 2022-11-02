@@ -59,8 +59,8 @@ class VoiceStressModel():
         preds=self.voice_model.predict(feature)
         amax=preds.argmax(axis=1)
         abc = amax.astype(int).flatten()
-        label=(self.label_encoder.inverse_transform((amax)))
-        return (label, preds[0][amax[0]])
+        label=(self.label_encoder.inverse_transform((amax)))[0]
+        return (label, preds[0][amax[0]].item())
 class StressModel():
     def __init__(self, stress_detector_path, tokenizer_path, personality_detector_path):
         self.stress_detector=keras.models.load_model(stress_detector_path)

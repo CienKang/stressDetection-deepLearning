@@ -1,2 +1,0 @@
-unzip models.zip -d .
-

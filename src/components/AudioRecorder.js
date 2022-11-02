@@ -4,6 +4,24 @@ const AudioRecorder = () => {
 
     let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
 
+    async function getBlob(blob_url){
+        let blob = await fetch(blob_url).then(r => r.blob());
+        return blob;
+    }
+
+    async function sendAudio() {
+        var data = new FormData()
+        var audio_blob= await getBlob(audioURL);
+        data.append('file',  audio_blob, 'file')
+        fetch('http://localhost:5000/predict_voice', {
+            method: 'POST',
+            body: data
+        }).then(response => response.json()
+        ).then(json => {
+            console.log(json)
+        });
+    }
+
     return (
         <div className="">
             <audio src={audioURL} controls />
@@ -13,7 +31,7 @@ const AudioRecorder = () => {
             <button onClick={stopRecording} disabled={!isRecording} >
                 stop
             </button>
-            <button onClick={console.log(audioURL)}>CLick Me</button>
+            <button onClick={sendAudio}>Send</button>
         </div>
     );
 }
