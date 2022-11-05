@@ -407,3 +407,42 @@ select option:hover {
 .bold-text{
   font-weight: bold;
 }
+
+.audio-buttons {
+  margin-bottom: 1rem;
+}
+
+.audio-buttons button{
+
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: white;
+  margin-right: 1rem;
+  outline: none;
+  font-size: 1.5rem;
+}
+
+.pulse {
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  transform: scale(1.25);
+  animation: pulse-black 2s infinite;
+}
+
+@keyframes pulse-black {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+  
+  70% {
+    transform: scale(1.25);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}

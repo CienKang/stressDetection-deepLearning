@@ -6,6 +6,7 @@ import LineChartSkeleton from "./SkeletonComponents/LineChartSkeleton";
 import PieChartSkeleton from "./SkeletonComponents/PieChartSkeleton";
 import StressLineChart from "./graphComponents/StressLineChart";
 import { useNavigate } from "react-router-dom";
+import AudioRecorder from "./AudioRecorder";
 const EvaluatePage = (props) => {
 
     const { loginStatus } = props;
@@ -165,6 +166,8 @@ const EvaluatePage = (props) => {
             {/* Posts is set 0 so it will not display rightnow.
                 But will make a option checkbox if user want to see this or not. */}
             <Slider posts={posts} singleData={singleData} />
+
+            <AudioRecorder />
 
         </div>
     );
