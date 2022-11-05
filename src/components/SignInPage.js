@@ -16,15 +16,34 @@ const SignInPage = (props) => {
         setPassword(e.target.value);
     }
 
-    const handleSignIn = () => {
-        // write python function for insertion of new user.
-
-        // remove alert after implementation.
-        setLoginStatus(true);
-        setUserName("Mehak Noor");
-        navigate('/evaluate');
+    const getLogin = async () => {
+        const resp = await fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'username': email,
+                'password': password
+            })
+        });
+        const json_resp = await resp.json();
+        console.log(json_resp);
+        return json_resp;
     }
 
+    const handleSignIn = async(event) => {
+        // write python function for insertion of new user.
+        var resp = await getLogin();
+        if (resp['status'] === 'success') {
+            setLoginStatus(true);
+            setUserName(email);
+            navigate('/evaluate');
+        } else {
+            alert("Invalid Credentials");
+        }
+    }
 
     return (
         <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)", height: "90vh" }}>

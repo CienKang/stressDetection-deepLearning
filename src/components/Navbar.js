@@ -28,9 +28,21 @@ const Navbar = (props) => {
         setid3("selected");
     }
 
-    const handleLogOut = () => {
-        setLoginStatus(false);
-        setUserName("Login Required");
+    const getLogout = async () => {
+        const resp = await fetch("http://localhost:5000/logout");
+        const json_resp = await resp.json();
+        console.log(json_resp);
+        return json_resp;
+    }
+
+    const handleLogOut = async (e) => {
+        var status=await getLogout();
+        if (status["status"]==="success") {
+            setLoginStatus(false);
+            setUserName("Login Required");
+        } else {
+            alert("An Error Occured")
+        }
     }
 
     return (
@@ -52,7 +64,7 @@ const Navbar = (props) => {
                         <button className='btn btn-primary'>Log In</button>
                     </Link> :
 
-                    <button className='btn btn-primary' onClick={() => handleLogOut()}>Log Out</button>
+                    <button className='btn btn-primary' onClick={(event) => handleLogOut(event)}>Log Out</button>
 
             }
 

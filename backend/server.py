@@ -7,6 +7,7 @@ import os
 from flask_cors import CORS
 
 app = Flask(__name__)
+app.secret_key = os.getenv("APP_SECRET_KEY")
 CORS(app)
 database=Database(os.getenv("MONGO_CONN_STR"))
 
@@ -82,6 +83,7 @@ def register():
         password=content['password']
         if database.findUser({"_id": username})==None:
             database.insertUser({"_id": username, "password": password})
+            session['username']=username
             return jsonify({"status": "success"})
         return jsonify({"status": "failed"})
     else:
@@ -89,8 +91,11 @@ def register():
 
 @app.route('/logout', methods=['POST', 'GET'])
 def logout():
-    session.pop('username', None)
-    return redirect(url_for("index"))
-
+    try: 
+        session.pop('username', None)
+        return jsonify({"status": "success"})
+    except Exception as err:
+        print("Exception: "+err)
+        return jsonify({"status": "failed"})
 if __name__ == '__main__':
     app.run(host= '127.0.0.1',debug=True)

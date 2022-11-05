@@ -23,13 +23,32 @@ const SignUpPage = (props) => {
         setUn(e.target.value);
     }
 
-    const handleSignUp = () => {
-        // write python function for insertion of new uhser.
+    const getSignUp = async () => {
+        const resp = await fetch("http://localhost:5000/register", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'username': email,
+                'password': password
+            })
+        });
+        const json_resp = await resp.json();
+        console.log(json_resp);
+        return json_resp;
+    }
 
-        
-        setLoginStatus(true);
-        setUserName(un);
-        navigate("/evaluate");
+    const handleSignUp = async (e) => {
+        var resp = await getSignUp();
+        if (resp['status'] === 'success') {
+            setLoginStatus(true);
+            setUserName(email);
+            navigate('/evaluate');
+        } else {
+            alert("Invalid Credentials");
+        }
     }
     return (
         <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)", height: "90vh" }}>
