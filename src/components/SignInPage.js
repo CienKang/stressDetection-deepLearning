@@ -27,13 +27,13 @@ const SignInPage = (props) => {
 
 
     return (
-        <div class="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)", height: "90vh" }}>
-            <div class="container">
-                <div class="row gx-lg-5 align-items-center">
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <h1 class="my-5 display-3 fw-bold ls-tight">
+        <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)", height: "90vh" }}>
+            <div className="container">
+                <div className="row gx-lg-5 align-items-center">
+                    <div className="col-lg-6 mb-5 mb-lg-0">
+                        <h1 className="my-5 display-3 fw-bold ls-tight">
                             Please Sign In <br />
-                            <span class="text-primary">to continue your Evaluation</span>
+                            <span className="text-primary">to continue your Evaluation</span>
                         </h1>
                         <p style={{ fontSize: "2rem" }}>
                             Please sign in via the email address you registered when you used the platform for first time.
@@ -41,32 +41,32 @@ const SignInPage = (props) => {
                         </p>
                     </div>
 
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="card bg-glass" >
-                            <div class="card-body py-5 px-md-5">
-                                <div class="d-flex align-items-center mb-3 pb-1">
+                    <div className="col-lg-6 mb-5 mb-lg-0">
+                        <div className="card bg-glass" >
+                            <div className="card-body py-5 px-md-5">
+                                <div className="d-flex align-items-center mb-3 pb-1">
                                     <img src={Logo} alt="LOGO " />
-                                    {/* <span class="h1 fw-bold mb-0">Tanaav</span> */}
+                                    {/* <span className="h1 fw-bold mb-0">Tanaav</span> */}
                                 </div>
                                 <h3> Sign into your account</h3>
-                                <div class="form-outline mb-4 mt-4">
-                                    <input type="email" class="form-control"
-                                        onChange={() => handleEmailChange()} />
-                                    <label class="form-label" >Email address</label>
+                                <div className="form-outline mb-4 mt-4">
+                                    <input type="email" className="form-control"
+                                        onChange={(event) => handleEmailChange(event)} />
+                                    <label className="form-label" >Email address</label>
                                 </div>
 
-                                <div class="form-outline mb-4">
-                                    <input type="password" class="form-control"
-                                        onChange={() => handlePasswordChange()} />
-                                    <label class="form-label" >Password</label>
+                                <div className="form-outline mb-4">
+                                    <input type="password" className="form-control"
+                                        onChange={(event) => handlePasswordChange(event)} />
+                                    <label className="form-label" >Password</label>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-block mb-4"
-                                    onClick={() => handleSignIn()}>
+                                <button type="submit" className="btn btn-primary btn-block mb-4"
+                                    onClick={(event) => handleSignIn(event)}>
                                     Login
                                 </button>
-                                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? &nbsp;
-                                    <a href="/signup" class="link-danger">Register</a>
+                                <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? &nbsp;
+                                    <a href="/signup" className="link-danger">Register</a>
                                 </p>
 
                             </div>

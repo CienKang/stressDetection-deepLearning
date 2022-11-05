@@ -58,7 +58,7 @@ const EvaluatePage = (props) => {
     }
 
     const getStressPredictionJson = async () => {
-        const resp = await fetch("/predict", {
+        const resp = await fetch("http://localhost:5000/predict", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -79,6 +79,7 @@ const EvaluatePage = (props) => {
     }
 
     const handleStart = (e) => {
+        e.preventDefault();
         if (start === true)
             setLoading(true);
         setStart(true);
@@ -114,7 +115,7 @@ const EvaluatePage = (props) => {
     }
 
     useEffect(() => {
-        if (loginStatus == false)
+        if (loginStatus === false)
             navigate('/signin');
     }, [loginStatus])
 
@@ -139,7 +140,7 @@ const EvaluatePage = (props) => {
                     onChange={(event) => handleInputChange(event)}
                     onKeyDown={(event) => event.key === 'Enter' ? handleStart() : event}>
                 </input>
-                <button onClick={() => handleStart()}>
+                <button onClick={(event) => handleStart(event)}>
                     <img className='' src={Evaluate} alt="Next" />
                 </button>
 

@@ -63,6 +63,7 @@ wrapt = "==1.14.1"
 librosa = "*"
 pymongo = "*"
 python-decouple = "*"
+flask-cors = "*"
 
 [dev-packages]
 

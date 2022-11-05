@@ -38,10 +38,10 @@ const AudioRecorder = () => {
 
     return (
         <div className="d-flex align-items-center justify-content-center bg-primary px-4 py-5 px-md-5 ">
-            <div class="text-center text-white">
-                <h1 class="display-1 ">Do you want to share with us how was your Day?</h1>
-                <p class="fs-3">This will help us strengthen our evaluation for better result.</p>
-                <button onClick={()=>{setShow(true)}} class="btn btn-success m-4">Yes , Go Ahead!!</button>
+            <div className="text-center text-white">
+                <h1 className="display-1 ">Do you want to share with us how was your Day?</h1>
+                <p className="fs-3">This will help us strengthen our evaluation for better result.</p>
+                <button onClick={()=>{setShow(true)}} className="btn btn-success m-4">Yes , Go Ahead!!</button>
 
                 {
                     show &&

@@ -1,5 +1,5 @@
 import pymongo
-from decouple import config
+import os
 
 class Database():
     def __init__(self, conn_str):
@@ -17,6 +17,6 @@ class Database():
         return collection.find_one(user)
 
 if __name__=="__main__":
-    db=Database(config("MONGO_CONN_STR"))
+    db=Database(os.getEnv("MONGO_CONN_STR"))
     db.insertUser({"_id":"admin", "password": "1234"})
     print(db.findUser({"_id":"ad"}))
