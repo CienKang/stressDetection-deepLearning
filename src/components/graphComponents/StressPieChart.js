@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Cell, Pie, PieChart, Sector } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
 
 const StressPieChart = (props) => {
   // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
@@ -15,7 +15,7 @@ const StressPieChart = (props) => {
     }
 
     return (
-        <PieChart width={600} height={600}>
+        <PieChart width={500} height={500}>
             <Pie
                 activeShape={renderActiveShape}
                 activeIndex={activeIndex}
@@ -29,8 +29,8 @@ const StressPieChart = (props) => {
             >
             {data.map((x, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-          </Pie>
+            ))}
+            </Pie>
         </PieChart>
     );
 }

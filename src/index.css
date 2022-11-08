@@ -154,6 +154,13 @@ code {
   font-weight: bold;
 }
 
+.scroll-down {
+  opacity: 0.5;
+}
+
+.scroll-down:hover {
+  opacity: 0.8;
+}
 
 .home-image-container {
   position: absolute;
@@ -321,21 +328,37 @@ code {
   line-height: 1;
 }
 
-
 .evaluate-result{
   display: flex;
   justify-content: center;
-  margin-top: 5vh;
   width: 100vw;
-  gap:25vw;
-  align-items: center;
+  gap:20vw;
+}
+
+.result-pie-chart {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap:2vw;
+  margin-bottom: 1vh;
+}
+
+.verdict {
+  margin-top: 10vh;
+}
+
+.result-graph {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap:2vw;
+  margin-bottom: 2vh;
 }
 
 .line-chart-skeleton{
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap:2vw;
   margin-bottom: 11vh;
 }
 .pie-chart-skeleton{
