@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../images/Logo.svg';
+import Logo from '../images/logo.svg';
 
 const SignInPage = (props) => {
 
@@ -63,11 +63,13 @@ const SignInPage = (props) => {
                     <div className="col-lg-6 mb-5 mb-lg-0">
                         <div className="card bg-glass" >
                             <div className="card-body py-5 px-md-5">
-                                <div className="d-flex align-items-center mb-3 pb-1">
-                                    <img src={Logo} alt="LOGO " />
-                                    {/* <span className="h1 fw-bold mb-0">Tanaav</span> */}
+                                <div className='text-center'>
+                                    <div className="d-flex justify-content-center align-items-center mb-3 pb-1">
+                                        <img src={Logo} alt="LOGO " style={{width: "185px"}}/>
+                                        {/* <span className="h1 fw-bold mb-0">Tanaav</span> */}
+                                    </div>
                                 </div>
-                                <h3> Sign into your account</h3>
+                                <h3 className='text-center'> Sign into your account</h3>
                                 <div className="form-outline mb-4 mt-4">
                                     <input type="email" className="form-control"
                                         onChange={(event) => handleEmailChange(event)} />

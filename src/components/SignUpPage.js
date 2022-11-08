@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../images/Logo.svg';
+import Logo from '../images/logo.svg';
 
 const SignUpPage = (props) => {
 
