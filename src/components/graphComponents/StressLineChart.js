@@ -31,14 +31,14 @@ const StressLineChart = (props) => {
                     bottom: 5,
                 }}
             >
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="12 3" />
                 <XAxis 
                     dataKey="time" 
                     type='number'
                     domain={['auto', 'auto']}
                     tickFormatter={(unixTime) => timeConverter(unixTime)}
                 />
-                <YAxis />
+                <YAxis label={{ value: 'Stress Probability', angle: -90, position: 'insideLeft', offset:-10}} />
                 <Line type="monotone" dataKey="stress" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
     );

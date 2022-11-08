@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Cell, Pie, PieChart, Sector } from "recharts";
 
-const StressPieChart = (props) => {
-  // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-  // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const AudioStressPieChart = (props) => {
     const COLORS = ['#FF8042', '#00C49F', '#FFBB28', '#FF8042'];
 
 
@@ -15,7 +13,7 @@ const StressPieChart = (props) => {
     }
 
     return (
-        <PieChart width={600} height={600}>
+        <PieChart width={800} height={350}>
             <Pie
                 activeShape={renderActiveShape}
                 activeIndex={activeIndex}
@@ -35,12 +33,12 @@ const StressPieChart = (props) => {
     );
 }
 
-export default StressPieChart;
+export default AudioStressPieChart;
 
 
 const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
-    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent } = props;
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
     const sx = cx + (outerRadius + 10) * cos;
@@ -53,7 +51,7 @@ const renderActiveShape = (props) => {
 
     return (
         <g>
-            <text x={cx} y={cy} dy={8} textAnchor="middle" fill={`#0088FE`} fontSize={26}>
+            <text x={cx} y={cy} dy={8} textAnchor="middle" fill={`#fff`} fontSize={26}>
                 Stress Meter
             </text>
             <Sector
