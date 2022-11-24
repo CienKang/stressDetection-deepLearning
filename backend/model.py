@@ -79,8 +79,10 @@ class StressModel():
             cleaned_text.append(sent)
         return cleaned_text,text_length
 
-    def predictStress(self, post):
-        personality=self.personality_detector.predict([post])
+    def personalityPredictor(self, concat_post):
+        return self.personality_detector.predict([concat_post])
+
+    def predictStress(self, post, personality):
         post, _=StressModel._clean_text([post])
         post_seq=self.tokenizer.texts_to_sequences(post)
         post_text_pad=pad_sequences(post_seq,maxlen=50)

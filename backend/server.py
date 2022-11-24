@@ -5,10 +5,13 @@ import consts
 from db import Database
 import os
 from flask_cors import CORS
+import numpy as np
+from combine import Combiner
 
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
 CORS(app)
+c=Combiner()
 database=Database(os.getenv("MONGO_CONN_STR"))
 
 stress_model=StressModel(stress_detector_path=consts.STRESS_MODEL_PATH, 
@@ -34,18 +37,22 @@ def predictStress():
     comments=reddit_fetcher.fetchComments(username)
     stress_score=0
     time_stress=[]
-    for i in range(len(posts)):
-        stress=stress_model.predictStress(posts[i]["text"])
-        time_stress.append({"time": posts[i]["time"], "stress": stress})
-        stress_score+=stress
-    for i in range(len(comments)):
-        stress=stress_model.predictStress(comments[i]["text"])
-        time_stress.append({"time": comments[i]["time"], "stress": stress})
-        stress_score+=stress
-    print("type stress: ", type(stress))
-    if (len(posts)+len(comments))!=0:
-        stress_score/=len(posts)+len(comments)
-    print(stress_score)
+    datas=posts+comments
+    del posts
+    del comments
+    datas=sorted(datas, key=lambda d: d["time"])
+    print(datas)
+    concat = " ".join([str(data["text"]) for data in datas])
+    print(concat)
+    personality=stress_model.personalityPredictor(concat)
+    print(personality)
+    bins=np.linspace(0,1)
+    stresses=[]
+    for i in range(len(datas)):
+        stress=stress_model.predictStress(datas[i]["text"], personality)
+        time_stress.append({"time": datas[i]["time"], "stress": stress})
+        stresses.append(stress)   
+    stress_score=float(c.calcMode(stresses, bins))
     return jsonify({"stress_level": stress_score, "time_stress": time_stress})
 
 @app.route('/predict_voice', methods=['GET', 'POST'])
