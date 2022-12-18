@@ -28,6 +28,15 @@
   color: #61dafb;
 }
 
+.dot {
+  height: 35px;
+  width: 35px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +44,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.graph {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.graph:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 25px;
 }

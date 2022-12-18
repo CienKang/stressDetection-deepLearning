@@ -15,15 +15,17 @@ const StressPieChart = (props) => {
     }
 
     return (
-        <PieChart width={500} height={500}>
+        <PieChart width={props.width} height={props.height}>
             <Pie
                 activeShape={renderActiveShape}
                 activeIndex={activeIndex}
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={100}
-                outerRadius={120}
+                startAngle={180}
+                endAngle={0}
+                innerRadius={props.innerRadius}
+                outerRadius={props.outerRadius}
                 dataKey="value"
                 onMouseEnter={onPieEnter}
             >

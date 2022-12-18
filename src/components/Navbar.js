@@ -54,9 +54,15 @@ const Navbar = (props) => {
                 <Link to="/model" className='navbar-menu-item link-tag-links' id={id2} onClick={() => changeId2()}>Model</Link>
                 <Link to="/about" className='navbar-menu-item link-tag-links' id={id3} onClick={() => changeId3()}>About Us</Link>
             </div>
-
             <div className="navbar-avatar">
-                <span>{userName}</span>
+                <span>
+                    { userName!="Login Required" && 
+                        <span className="dot" style={{backgroundColor: "#139CFFFF", marginRight: "5px", padding: "5px 5px 5px 5px", color: "white"}}>
+                            <b color="#FFFFFF">{userName[0].toUpperCase()}</b>
+                        </span>
+                    }
+                    {userName[0].toUpperCase()+userName.slice(1)}
+                </span>
             </div>
             {
                 loginStatus === false ?

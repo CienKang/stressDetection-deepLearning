@@ -67,6 +67,7 @@ def predictVoiceStress():
 
     stress=voice_model.predictStress("audios/audio")
     os.remove("audios/audio")
+    print(str(stress[0])+" "+str(stress[1]))
     return jsonify({"type": stress[0], "type_probab": stress[1]})
 
 @app.route('/login', methods=['POST'])

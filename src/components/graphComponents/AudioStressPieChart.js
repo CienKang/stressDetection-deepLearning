@@ -20,8 +20,10 @@ const AudioStressPieChart = (props) => {
                 data={data}
                 cx="50%"
                 cy="50%"
+                startAngle={180}
+                endAngle={0}
                 innerRadius={100}
-                outerRadius={120}
+                outerRadius={140}
                 dataKey="value"
                 onMouseEnter={onPieEnter}
             >

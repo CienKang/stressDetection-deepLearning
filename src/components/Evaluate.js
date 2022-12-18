@@ -16,6 +16,7 @@ const EvaluatePage = (props) => {
     const [loading, setLoading] = useState(true);
     const [start, setStart] = useState(false);
     const navigate = useNavigate();
+    const [stage, setStage] = useState(0);
 
     //input data 
     const [handle, setHandle] = useState("");
@@ -25,9 +26,11 @@ const EvaluatePage = (props) => {
     const [verdict, setVerdict] = useState("");
 
     const [finalData, setFinalData] = useState([
-        { name: 'Stress', value: 0.24 * 100 },
-        { name: 'Unstress', value: 0.76 * 100 }
+        { name: 'Stress', value: 0.0 * 100 },
+        { name: 'Unstress', value: 100 }
     ]);
+
+    const [combinedData, setCombinedData] = useState(0);
     const [singleData, setSingleData] = useState([
         {
             "stress": 0.059458814561367035,
@@ -100,8 +103,13 @@ const EvaluatePage = (props) => {
         } else {
             await setVerdict("Normal");
         }
+        setStage(1);
         setLoading(false);
         console.log(singleData);
+    }
+
+    function setStageAudio() {
+        setStage(1);
     }
 
     useEffect(() => {
@@ -125,7 +133,11 @@ const EvaluatePage = (props) => {
                     <button onClick={(event) => handleStart(event)}>
                         <img className='' src={Evaluate} alt="Next" />
                     </button>
-
+                {stage === 0 &&
+                    <a href="#voice-stress" className="scroll-down" style={{position: "absolute", left: "1020px", bottom: "25px"}} onClick={setStageAudio}>
+                        <AiOutlineArrowDown style={{ fontSize: '3rem' }} />
+                    </a>
+                }
                 </div>
                 {
                     start === true ? loading === true
@@ -145,26 +157,44 @@ const EvaluatePage = (props) => {
                                 Results for <span className="color-blue">{handle}</span>
                             </h1>
                             <h2 className="text-center mt-5 mb-5">Verdict: <span className="color-blue">{verdict}</span> </h2>
-                            <div className="evaluate-result mb-5">
-                                <StressPieChart data={finalData} />
-                                <StressLineChart data={singleData} />
+                            <div className="evaluate-result mb-5 d-flex flex-row align-items-center justify-content-center">
+                                <div className="graph" style={{padding: "20px 0px 0px 0px", height: "300px"}}>
+                                    <StressPieChart data={finalData} width={400} height={400} innerRadius={100} outerRadius={140} />
+                                </div>
+                                {stage>=1 &&
+                                    <a href="#voice-stress" className="scroll-down" style={{position: "relative", left: "200px", top: "200px"}} onClick={setStageAudio}>
+                                        <AiOutlineArrowDown style={{ fontSize: '3rem' }} />
+                                    </a>
+                                }
+                                <div className="graph" style={{padding: "10px 10px 10px 20px"}}>
+                                    <StressLineChart data={singleData} innerRadius={100} outerRadius={140} />
+                                </div>
                             </div>
                         </div>
                         :
                         // when opening page first time
                         <div></div>
                 }
-
-                {/* Posts is set 0 so it will not display rightnow.
-                    But will make a option checkbox if user want to see this or not. */}
                 <Slider posts={posts} singleData={singleData} />
-                <a href="#voice-stress" className="scroll-down" style={{position: 'absolute', bottom: 0, left: "50%"}}>
-                    <AiOutlineArrowDown style={{ fontSize: '3rem' }} />
-                </a>
             </div>
-            <div id="voice-stress" className="evaluate-page-container d-flex flex-column align-items-center justify-content-center bg-primary px-4 py-5 px-md-5 " style={{height: "100vh", width: "100%"}}>
-                <AudioRecorder />
-            </div>
+            {stage>=1 &&
+                <div id="voice-stress" className="evaluate-page-container d-flex flex-column align-items-center justify-content-center bg-primary px-4 py-5 px-md-5 " style={{height: "100vh", width: "100%"}}>
+                    <AudioRecorder func={setStage} func2={setCombinedData} data={finalData}/>
+                </div>
+            }
+            {stage===2 &&
+                <div id="voice-stress" className="evaluate-page-container d-flex flex-column align-items-center justify-content-center px-4 py-5 px-md-5 " style={{height: "100vh", width: "100%"}}>
+                    <h1 className="text-center mt-5">
+                        Combined Results for <span className="color-blue">{handle}</span>
+                    </h1>
+                    <h2 className="text-center mt-5 mb-5">Verdict: <span className="color-blue">{combinedData[0].value>50?"Stressed":"Not Stressed"}</span> </h2>
+                    <div className="evaluate-result mb-5">
+                        <div className="graph" style={{padding: "20px 0px 0px 0px", height: "300px", marginTop: "100px"}}>
+                            <StressPieChart data={combinedData} innerRadius={150} outerRadius={200} width={500} height={500} />
+                        </div>
+                    </div>
+                </div>
+        }
         </div>
     );
 }

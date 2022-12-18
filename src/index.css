@@ -130,9 +130,6 @@ code {
 
 /* -------------------------Home - Start ------------------------- */
 .home-container {
-  position: absolute;
-  top: 86px;
-  left: 0px;
   width: 100vw;
   height: 88vh;
   background: #F8F9FAFF;
@@ -140,9 +137,6 @@ code {
 }
 
 .home-heading {
-  position: absolute;
-  top: 20vh;
-  left: 20vw;
   width: 30vw;
   font-family: Poppins;
   font-size: 40px;
@@ -163,20 +157,11 @@ code {
 }
 
 .home-image-container {
-  position: absolute;
-  top: 20vh;
-  left: 60vw;
-  width: 30vw;
-  height: 58vh;
-  background: #FFC414FF;
   border-radius: 12px;
   box-shadow: 0px 0px 1.5px #171a1f, 0px 0px 2px #171a1f;
 }
 
 .home-description {
-  position: absolute;
-  top: 43vh;
-  left: 20vw;
   width: 30vw;
   font-family: Inter;
   font-size: 24px;
@@ -185,9 +170,6 @@ code {
 }
 
 .home-helpful-buttons{
-  position: absolute;
-  top: 68vh;
-  left: 20vw;
   width: 30vw;
   font-family: Inter;
   display: flex;

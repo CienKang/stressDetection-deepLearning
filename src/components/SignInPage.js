@@ -46,7 +46,7 @@ const SignInPage = (props) => {
     }
 
     return (
-        <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)", height: "90vh" }}>
+        <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)", height: "90vh", boxShadow: " rgba(0, 0, 0, 0.35) 0px 5px 15px;"}}>
             <div className="container">
                 <div className="row gx-lg-5 align-items-center">
                     <div className="col-lg-6 mb-5 mb-lg-0">
