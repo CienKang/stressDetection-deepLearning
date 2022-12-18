@@ -12,6 +12,7 @@ import SignUpPage from "./components/SignUpPage";
 import { useState } from "react";
 import AudioRecorder from "./components/AudioRecorder";
 import PageNotFound from "./components/PageNotFound";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   const [loginStatus, setLoginStatus] = useState(false);
@@ -27,6 +28,7 @@ function App() {
           <Route exact path='/signin' element={<SignInPage setLoginStatus={setLoginStatus} setUserName={setUserName} />} />
           <Route exact path='/signup' element={<SignUpPage setLoginStatus={setLoginStatus} setUserName={setUserName} />} />
           <Route exact path='/audio' element={<AudioRecorder />} />
+          <Route exact path='/about' element={<AboutUs />} />
           <Route path='/*' element={<PageNotFound />} />
         </Routes>
       </Router>
